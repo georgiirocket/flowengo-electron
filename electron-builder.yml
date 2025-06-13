@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: flowengo-electron
+productName: Flowengo Board
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: flowengo-electron
+  executableName: Flowengo Board
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
