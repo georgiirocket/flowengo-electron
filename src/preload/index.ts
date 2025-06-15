@@ -1,10 +1,20 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { EVENTS } from '@shared/events'
+import { INVOKE_EVENTS } from '@shared/events'
 
 // Custom APIs for renderer
 const api = {
-  getAppState: () => ipcRenderer.invoke(EVENTS.getAppState)
+  getAppState: () => ipcRenderer.invoke(INVOKE_EVENTS.getAppState),
+  on: (channel: string, callback: (data: unknown) => void) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const listener = (_event: Electron.IpcRendererEvent, data: unknown) => callback(data)
+    ipcRenderer.on(channel, listener)
+    return () => ipcRenderer.removeListener(channel, listener)
+  },
+  emit: (channel: string, data: unknown) => {
+    console.log('emit', channel, data)
+    ipcRenderer.send(channel, data)
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

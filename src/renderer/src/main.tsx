@@ -1,11 +1,27 @@
-import './assets/main.css'
+import './app.css'
 
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
+import App from './app'
+import ThemeProvider from '@renderer/common/providers/theme'
+import HeroUiProvider from '@renderer/common/providers/hero-ui'
+import { BrowserRouter } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
+import CommonLoading from '@renderer/common/components/loading/common'
+import { FallbackRender } from '@renderer/common/components/fallback-render'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ThemeProvider>
+      <HeroUiProvider>
+        <BrowserRouter>
+          <ErrorBoundary FallbackComponent={FallbackRender}>
+            <Suspense fallback={<CommonLoading />}>
+              <App />
+            </Suspense>
+          </ErrorBoundary>
+        </BrowserRouter>
+      </HeroUiProvider>
+    </ThemeProvider>
   </StrictMode>
 )

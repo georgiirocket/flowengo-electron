@@ -40,7 +40,7 @@ export const getAppState = async (): Promise<AppState> => {
   if (!appData) {
     await initDatabase()
 
-    return { isInitialized: false, createDate: '', userName: '' }
+    return { isInitialized: false, createDate: new Date().toISOString(), userName: '' }
   }
 
   return {

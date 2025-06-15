@@ -6,6 +6,8 @@ declare global {
     electron: ElectronAPI
     api: {
       getAppState: () => Promise<AppState>
+      on<T>(channel: string, callback: (data: T) => void): () => void
+      emit: (channel: string, data: unknown) => void
     }
   }
 }

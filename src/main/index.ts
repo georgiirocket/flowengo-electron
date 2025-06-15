@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { EVENTS } from '@shared/events'
+import { INVOKE_EVENTS } from '@shared/events'
 import { appStore } from './store'
 
 function createWindow(): void {
@@ -55,9 +55,14 @@ app.whenReady().then(() => {
   })
 
   // IPC
-  ipcMain.handle(EVENTS.getAppState, async () => {
-    return await appStore.getAppState()
-  })
+  ipcMain.handle(INVOKE_EVENTS.getAppState, async () => await appStore.getAppState())
+
+  // ipcMain.on('test', (event, data) => {
+  //   console.log('[main] received:', data)
+  //
+  //   // Send it back to the same renderer
+  //   event.sender.send('test', { received: true, original: data })
+  // })
 
   createWindow()
 
