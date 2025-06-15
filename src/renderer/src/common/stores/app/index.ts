@@ -9,7 +9,6 @@ export interface Store extends AppStore {
   clear(): void
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const createAppStore = (initData: AppState) => {
   return create<Store>()(
     immer<Store>((set) => ({

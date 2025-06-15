@@ -23,7 +23,6 @@ const FieldPassword = <TFormValues extends FieldValues>({
   isGenerate,
   isCopy,
   inputProps
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 }: Props<TFormValues>) => {
   const [isShow, setIsShow] = useState(false)
 

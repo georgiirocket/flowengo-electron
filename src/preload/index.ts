@@ -6,7 +6,6 @@ import { INVOKE_EVENTS } from '@shared/events'
 const api = {
   getAppState: () => ipcRenderer.invoke(INVOKE_EVENTS.getAppState),
   on: (channel: string, callback: (data: unknown) => void) => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const listener = (_event: Electron.IpcRendererEvent, data: unknown) => callback(data)
     ipcRenderer.on(channel, listener)
     return () => ipcRenderer.removeListener(channel, listener)

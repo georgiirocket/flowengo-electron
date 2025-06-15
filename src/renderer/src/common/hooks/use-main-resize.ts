@@ -1,11 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useMainResize = () => {
   const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const resize = () => {
       if (mainRef.current) {
         mainRef.current.style.width = `${window.innerWidth}px`

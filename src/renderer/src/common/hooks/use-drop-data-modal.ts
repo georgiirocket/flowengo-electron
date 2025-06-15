@@ -5,7 +5,6 @@ export const openRemoveDataModal = (): void => {
   window.api.emit(EVENTS.dropData, {})
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useDropDataModal = () => {
   const [isOpen, setIsOpen] = useState(false)
 

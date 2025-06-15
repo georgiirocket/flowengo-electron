@@ -26,7 +26,8 @@ export default tseslint.config(
       ...eslintPluginReactHooks.configs.recommended.rules,
       ...eslintPluginReactRefresh.configs.vite.rules,
       'react-hooks/exhaustive-deps': 'off',
-      'react-refresh/only-export-components': 'off'
+      'react-refresh/only-export-components': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off'
     }
   },
   eslintConfigPrettier

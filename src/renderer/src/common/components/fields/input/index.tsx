@@ -13,7 +13,6 @@ const FieldInput = <TFormValues extends FieldValues>({
   control,
   name,
   inputProps
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 }: Props<TFormValues>) => {
   return (
     <Controller
