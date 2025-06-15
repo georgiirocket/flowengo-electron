@@ -25,6 +25,7 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
     "better-sqlite3": "^11.10.0",
+    "crypto-js": "^4.2.0",
     "drizzle-orm": "^0.44.2",
     "electron-updater": "^6.3.9"
   },
@@ -39,6 +40,7 @@
     "@tiptap/react": "^2.14.0",
     "@tiptap/starter-kit": "^2.14.0",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/crypto-js": "^4.2.2",
     "@types/lodash": "^4.17.17",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.1",

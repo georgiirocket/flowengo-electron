@@ -4,6 +4,7 @@ import { drizzle } from 'drizzle-orm/better-sqlite3'
 import * as schema from './schema'
 import path from 'path'
 import { AppState } from '@shared/app-state'
+import { eq } from 'drizzle-orm'
 
 const sqlite = new Database(path.join(app.getPath('userData'), 'app.db'))
 
@@ -11,7 +12,6 @@ sqlite.exec(`
   CREATE TABLE IF NOT EXISTS app (
     id INTEGER PRIMARY KEY DEFAULT 0,
     userName TEXT NOT NULL DEFAULT '',
-    password TEXT NOT NULL DEFAULT '',
     createDate TEXT NOT NULL DEFAULT '',
     protectedData TEXT NOT NULL DEFAULT ''
   );
@@ -26,8 +26,7 @@ export const initDatabase = async (): Promise<RunResult> => {
       id: 0,
       userName: '',
       createDate: new Date().toISOString(),
-      password: '',
-      protectedData: '{}'
+      protectedData: ''
     })
     .onConflictDoNothing({ target: schema.app.id })
 }
@@ -48,4 +47,22 @@ export const getAppState = async (): Promise<AppState> => {
     userName: appData.userName,
     createDate: appData.createDate
   }
+}
+
+export const saveUserData = async (
+  userName: string,
+  createDate: string,
+  protectedData: string
+): Promise<void> => {
+  await db
+    .update(schema.app)
+    .set({ userName, createDate, protectedData })
+    .where(eq(schema.app.id, 0))
+}
+
+export const clearAppData = async (): Promise<void> => {
+  await db
+    .update(schema.app)
+    .set({ userName: '', createDate: new Date().toISOString(), protectedData: '' })
+    .where(eq(schema.app.id, 0))
 }
