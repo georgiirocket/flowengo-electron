@@ -2,7 +2,10 @@ import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const test = async (): Promise<void> => {
+    const state = await window.api.getAppState()
+    console.log(state)
+  }
 
   return (
     <>
@@ -22,7 +25,7 @@ function App(): React.JSX.Element {
           </a>
         </div>
         <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
+          <a target="_blank" rel="noreferrer" onClick={test}>
             Send IPC
           </a>
         </div>
