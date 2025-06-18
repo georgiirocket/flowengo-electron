@@ -12,5 +12,10 @@ export enum EVENTS {
 }
 
 export enum INVOKE_EVENTS {
-  getAppState = 'get-app-state'
+  getAppState = 'get-app-state',
+  signUp = 'sign-up',
+  signIn = 'sign-in',
+  signOut = 'sign-out',
+  getProtectedData = 'get-protected-data',
+  saveProtectedData = 'save-protected-data'
 }

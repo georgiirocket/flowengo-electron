@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { INVOKE_EVENTS } from '@shared/events'
 import { appStore } from './store'
+import { initDatabase } from './db'
 
 function createWindow(): void {
   // Create the browser window.
@@ -43,7 +44,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -55,7 +56,29 @@ app.whenReady().then(() => {
   })
 
   // IPC
-  ipcMain.handle(INVOKE_EVENTS.getAppState, async () => await appStore.getAppState())
+  ipcMain.handle(INVOKE_EVENTS.getAppState, async () => {
+    return await appStore.getAppState()
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.signUp, async (_event, username: string, password: string) => {
+    return await appStore.signUp(username, password)
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.signIn, async (_event, password: string) => {
+    return await appStore.signIn(password)
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.signOut, () => {
+    return appStore.signOut()
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.getProtectedData, async () => {
+    return await appStore.getProtectedData()
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.saveProtectedData, async (_event, data: unknown) => {
+    return await appStore.saveProtectedData(data)
+  })
 
   // ipcMain.on('test', (event, data) => {
   //   console.log('[main] received:', data)
@@ -63,6 +86,9 @@ app.whenReady().then(() => {
   //   // Send it back to the same renderer
   //   event.sender.send('test', { received: true, original: data })
   // })
+
+  //Init sql db
+  await initDatabase()
 
   createWindow()
 

@@ -1,1 +1,1 @@
-export const appName = 'Flowengo'
+export const appName = 'Flowengo Board'

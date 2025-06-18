@@ -4,14 +4,32 @@ import { INVOKE_EVENTS } from '@shared/events'
 
 // Custom APIs for renderer
 const api = {
-  getAppState: () => ipcRenderer.invoke(INVOKE_EVENTS.getAppState),
+  getAppState: () => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.getAppState)
+  },
+  signUp: (username: string, password: string) => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.signUp, username, password)
+  },
+  signIn: (password: string) => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.signIn, password)
+  },
+  signOut: () => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.signOut)
+  },
+  getProtectedData: () => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.getProtectedData)
+  },
+  saveProtectedData: (data: unknown) => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.saveProtectedData, data)
+  },
   on: (channel: string, callback: (data: unknown) => void) => {
     const listener = (_event: Electron.IpcRendererEvent, data: unknown) => callback(data)
+
     ipcRenderer.on(channel, listener)
+
     return () => ipcRenderer.removeListener(channel, listener)
   },
   emit: (channel: string, data: unknown) => {
-    console.log('emit', channel, data)
     ipcRenderer.send(channel, data)
   }
 }

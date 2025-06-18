@@ -19,6 +19,9 @@ sqlite.exec(`
 
 const db = drizzle(sqlite, { schema })
 
+/**
+ * Init database
+ */
 export const initDatabase = async (): Promise<RunResult> => {
   return db
     .insert(schema.app)
@@ -31,15 +34,16 @@ export const initDatabase = async (): Promise<RunResult> => {
     .onConflictDoNothing({ target: schema.app.id })
 }
 
+/**
+ * Get app state
+ */
 export const getAppState = async (): Promise<AppState> => {
   const appData = await db.query.app.findFirst({
     where: (fields, { eq }) => eq(fields.id, 0)
   })
 
   if (!appData) {
-    await initDatabase()
-
-    return { isInitialized: false, createDate: new Date().toISOString(), userName: '' }
+    throw new Error('App state not found')
   }
 
   return {
@@ -49,6 +53,12 @@ export const getAppState = async (): Promise<AppState> => {
   }
 }
 
+/**
+ * Save user data
+ * @param userName
+ * @param createDate
+ * @param protectedData
+ */
 export const saveUserData = async (
   userName: string,
   createDate: string,
@@ -60,9 +70,34 @@ export const saveUserData = async (
     .where(eq(schema.app.id, 0))
 }
 
-export const clearAppData = async (): Promise<void> => {
-  await db
+/**
+ * Clear all user data (recovery to init app)
+ */
+export const clearAppData = async (): Promise<RunResult> => {
+  return db
     .update(schema.app)
     .set({ userName: '', createDate: new Date().toISOString(), protectedData: '' })
     .where(eq(schema.app.id, 0))
+}
+
+/**
+ * Get encrypt string from db
+ */
+export const getProtectedStr = async (): Promise<string> => {
+  const appState = await db.query.app.findFirst({
+    where: (fields, { eq }) => eq(fields.id, 0)
+  })
+
+  if (!appState) {
+    throw new Error('App state not found')
+  }
+
+  return appState.protectedData
+}
+
+/**
+ * Save encrypt string to db
+ */
+export const saveProtectedStr = async (protectedData: string): Promise<RunResult> => {
+  return db.update(schema.app).set({ protectedData }).where(eq(schema.app.id, 0))
 }
