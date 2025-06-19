@@ -1,14 +1,11 @@
-export enum EVENTS {
-  dropData = 'drop-data',
-  quitApp = 'quit-app',
-  userModal = 'user-modal',
+export enum UI_EVENTS {
+  clearAppDataModal = 'clear-app-data-modal',
+  signOut = 'sign-out',
   newProject = 'new-project',
   editProject = 'edit-project',
   newStepItem = 'new-step-item',
   editStepItem = 'edit-step-item',
-  viewStepItem = 'view-step-item',
-  checkForUpdates = 'check-for-updates',
-  updateNotification = 'update-notification'
+  viewStepItem = 'view-step-item'
 }
 
 export enum INVOKE_EVENTS {

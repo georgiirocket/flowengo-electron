@@ -8,6 +8,7 @@ import { lazy, Suspense } from 'react'
 import DashboardLoading from '@common/components/loading/dashboard'
 import { getAppState } from '@common/actions/get-app-state'
 import AuthRoute from '@routes/auth'
+import DashboardLayout from '@layouts/dashboard'
 
 const DropDataModal = lazy(() => import('@common/modals/drop-data'))
 
@@ -26,7 +27,7 @@ function App(): React.JSX.Element {
             path={ROUTES.dashboard}
             element={
               <Suspense fallback={<DashboardLoading />}>
-                <div>Hello</div>
+                <DashboardLayout />
               </Suspense>
             }
           >

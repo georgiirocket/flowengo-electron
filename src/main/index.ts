@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { INVOKE_EVENTS } from '@shared/events'
+import { INVOKE_EVENTS, UI_EVENTS } from '@shared/events'
 import { appStore } from './store'
 import { initDatabase } from './db'
 
@@ -84,12 +84,33 @@ app.whenReady().then(async () => {
     return await appStore.clearAppData()
   })
 
-  // ipcMain.on('test', (event, data) => {
-  //   console.log('[main] received:', data)
-  //
-  //   // Send it back to the same renderer
-  //   event.sender.send('test', { received: true, original: data })
-  // })
+  ipcMain.on(UI_EVENTS.clearAppDataModal, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.clearAppDataModal, data)
+  })
+
+  ipcMain.on(UI_EVENTS.signOut, () => {
+    appStore.signOut()
+  })
+
+  ipcMain.on(UI_EVENTS.newProject, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.newProject, data)
+  })
+
+  ipcMain.on(UI_EVENTS.editProject, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.editProject, data)
+  })
+
+  ipcMain.on(UI_EVENTS.newStepItem, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.newStepItem, data)
+  })
+
+  ipcMain.on(UI_EVENTS.editStepItem, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.editStepItem, data)
+  })
+
+  ipcMain.on(UI_EVENTS.viewStepItem, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.editStepItem, data)
+  })
 
   //Init sql db
   await initDatabase()

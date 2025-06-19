@@ -1,5 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { AppState } from '../shared/app-state'
+import { UI_EVENTS } from '../shared/events'
 
 declare global {
   interface Window {
@@ -12,8 +13,8 @@ declare global {
       getProtectedData: () => Promise<{ data: unknown }>
       saveProtectedData: (data: unknown) => Promise<{ status: string }>
       clearAppData: () => Promise<{ status: string }>
-      on<T>(channel: string, callback: (data: T) => void): () => void
-      emit: (channel: string, data: unknown) => void
+      on<T>(channel: UI_EVENTS, callback: (data: T) => void): () => void
+      emit: (channel: UI_EVENTS, data: unknown) => void
     }
   }
 }
