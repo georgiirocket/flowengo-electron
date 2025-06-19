@@ -1,7 +1,7 @@
 import type { IProjects } from '@common/stores/projects/types.ts'
 import type { FC } from 'react'
 import { useDroppable } from '@dnd-kit/core'
-import { SortableContext } from '@dnd-kit/sortable'
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 import Header from './components/header'
 import Item from './components/item'
 
@@ -17,14 +17,8 @@ const Column: FC<Props> = ({ step, projectId }) => {
   return (
     <div className="grid h-full gap-2 grid-rows-[auto_1fr]">
       <Header projectId={projectId} stepId={id} title={title} />
-      <SortableContext id={id} items={items}>
-        <div
-          onScroll={(e) => {
-            e.currentTarget.scrollLeft = 0
-          }}
-          ref={setNodeRef}
-          className="w-full overflow-y-auto overflow-x-hidden scroll-hidden"
-        >
+      <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+        <div ref={setNodeRef} className="w-full overflow-y-auto overflow-x-hidden scroll-hidden">
           {items.map((item) => (
             <Item key={item.id} projectId={projectId} stepId={id} item={item} />
           ))}

@@ -13,6 +13,8 @@ import { formatDateFromIso } from '@common/helpers/format-date-from-iso'
 import { Divider } from '@heroui/divider'
 import { openViewStepItemModal } from '@common/hooks/use-view-step-item'
 import { openEditStepItemModal } from '@common/hooks/use-edit-step-item'
+import { twJoin } from 'tailwind-merge'
+import Snippet from './snipet'
 
 interface Props {
   projectId: string
@@ -24,7 +26,7 @@ const Item: FC<Props> = ({ item, projectId, stepId }) => {
   const { id, title, color, updatedAt } = item
   const displayUpdateAt = formatDateFromIso(updatedAt, 'dateWithTime')
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
+  const { attributes, listeners, setNodeRef, transform, transition, active } = useSortable({ id })
 
   return (
     <motion.div
@@ -35,15 +37,22 @@ const Item: FC<Props> = ({ item, projectId, stepId }) => {
         transform: CSS.Transform.toString(transform),
         transition: transition
       }}
-      className="w-full h-[143px] cursor-grab [&:not(:last-child)]:mb-2"
+      className={twJoin(
+        'w-full h-[143px] cursor-grab [&:not(:last-child)]:mb-2',
+        active?.id === item.id && 'opacity-70'
+      )}
     >
+      {active?.id === item.id && <Snippet />}
       <Card
         shadow="none"
-        className="w-full h-full scroll-hidden border-1 select-none"
+        className={twJoin(
+          'w-full h-full scroll-hidden border-1 select-none',
+          active?.id === item.id && 'hidden'
+        )}
         style={{ borderColor: color }}
       >
         <CardBody className="flex flex-col justify-between gap-1 pb-0">
-          <p className="line-clamp-2 text-sm">{title}</p>
+          <p className="line-clamp-2 text-sm min-h-[40px]">{title}</p>
           <Divider className="my-1" />
           <div className="text-tiny flex justify-start gap-1 items-center">
             <MdOutlineUpdate size={12} />

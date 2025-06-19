@@ -9,88 +9,72 @@ export const useDragHandler = (project: IProjects['projects'][0]) => {
   const moveItemToStep = useProjectsCtxStore((state) => state.moveItemToStep)
 
   const dragEndHandler = (e: DragEndEvent) => {
-    // Check if item is drag into unknown area
-    if (!e.over || !e.active.data.current || !e.over.data.current) return
+    const { active, over } = e
+    if (!over || !active.data.current || !over.data.current) return
 
-    // Check if item position is the same
-    if (e.active.id === e.over.id) return
+    // Ignore if item is dropped on itself
+    if (active.id === over.id) return
 
-    // Check if item is moved outside the column
-    if (e.active.data.current.sortable.containerId !== e.over.data.current.sortable.containerId)
-      return
+    const containerId = active.data.current.sortable.containerId
+    const targetContainerId = over.data.current.sortable.containerId
 
-    const stepId = e.active.data.current.sortable.containerId
-    const over = e.over
+    // Only reorder if same column
+    if (containerId !== targetContainerId) return
 
-    if (!over) {
-      return
-    }
-
-    const step = steps.find((s) => s.id === stepId)
-
-    if (!step) {
-      return
-    }
+    const step = steps.find((s) => s.id === containerId)
+    if (!step) return
 
     const { items } = step
+    const oldIndex = items.findIndex((i) => i.id === active.id.toString())
+    const newIndex = items.findIndex((i) => i.id === over.id.toString())
 
-    const oldIdx = items.findIndex((i) => i.id === e.active.id.toString())
-    const newIdx = items.findIndex((i) => i.id === over.id.toString())
+    if (oldIndex === -1 || newIndex === -1) return
 
     reOrderItems({
       projectId: id,
-      stepId: step.id,
-      items: arrayMove(items, oldIdx, newIdx)
+      stepId: containerId,
+      items: arrayMove(items, oldIndex, newIndex)
     })
   }
 
   const dragOverHandler = (e: DragOverEvent) => {
-    // Check if item is drag into unknown area
-    if (!e.over) return
+    const { active, over } = e
+    if (!over || !active.data.current) return
 
-    // Get the initial and target sortable list name
-    const initialContainer = e.active.data.current?.sortable?.containerId
-    const targetContainer = e.over.data.current?.sortable?.containerId
+    const initialContainer = active.data.current.sortable?.containerId
+    const targetContainer = over.data.current?.sortable?.containerId
 
-    // if there is none initial sortable list name, then item is not sortable item
-
+    // If no valid container for the active item, abort
     if (!initialContainer) return
 
+    const itemId = active.id.toString()
+
+    // Dragged into a new column container (over's ID is a step)
     if (!targetContainer) {
-      if (initialContainer === e.over.id.toString()) {
-        return
-      }
+      if (initialContainer === over.id.toString()) return
 
-      const newStep = steps.find((s) => s.id === e.over?.id.toString())
-
-      if (!newStep) {
-        return
-      }
+      const newStep = steps.find((s) => s.id === over.id.toString())
+      if (!newStep) return
 
       moveItemToStep({
         projectId: id,
-        itemId: e.active.id.toString(),
-        newStepId: e.over.id.toString(),
-        oldStepId: initialContainer
+        itemId,
+        oldStepId: initialContainer,
+        newStepId: over.id.toString()
       })
-
       return
     }
 
-    if (initialContainer === targetContainer) {
-      return
-    }
+    // Same column, no move
+    if (initialContainer === targetContainer) return
 
-    if (initialContainer !== targetContainer) {
-      moveItemToStep({
-        projectId: id,
-        itemId: e.active.id.toString(),
-        newStepId: targetContainer,
-        oldStepId: initialContainer
-      })
-
-      return
-    }
+    // Move to a different column
+    moveItemToStep({
+      projectId: id,
+      itemId,
+      oldStepId: initialContainer,
+      newStepId: targetContainer
+    })
   }
 
   return { dragEndHandler, dragOverHandler }

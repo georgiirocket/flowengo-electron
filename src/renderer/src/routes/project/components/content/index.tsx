@@ -1,8 +1,9 @@
 import type { FC } from 'react'
 import type { IProjects } from '@common/stores/projects/types.ts'
-import { DndContext } from '@dnd-kit/core'
+import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core'
 import Column from './components/column'
 import { useDragHandler } from './hooks/use-drag-handler'
+import Overlay from './components/overlay'
 
 interface Props {
   project: IProjects['projects'][0]
@@ -19,10 +20,18 @@ const Content: FC<Props> = ({ project }) => {
           gridTemplateColumns: `repeat(${project.steps.length}, 270px)`
         }}
       >
-        <DndContext autoScroll onDragEnd={dragEndHandler} onDragOver={dragOverHandler}>
+        <DndContext
+          autoScroll
+          collisionDetection={closestCenter}
+          onDragEnd={dragEndHandler}
+          onDragOver={dragOverHandler}
+        >
           {project.steps.map((s) => (
             <Column key={s.id} projectId={project.id} step={s} />
           ))}
+          <DragOverlay dropAnimation={null}>
+            <Overlay project={project} />
+          </DragOverlay>
         </DndContext>
       </div>
     </div>
