@@ -12,7 +12,7 @@ declare global {
       signOut: () => Promise<void>
       getProtectedData: () => Promise<{ data: unknown }>
       saveProtectedData: (data: unknown) => Promise<{ status: string }>
-      clearAppData: () => Promise<{ status: string }>
+      clearAppData: () => Promise<void>
       on<T>(channel: UI_EVENTS, callback: (data: T) => void): () => void
       emit: (channel: UI_EVENTS, data: unknown) => void
     }

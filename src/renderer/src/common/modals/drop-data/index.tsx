@@ -9,8 +9,6 @@ const DropDataModal: FC = () => {
 
   const onRemoveData = async (): Promise<void> => {
     await clearAppData()
-
-    window.location.href = '/'
   }
 
   if (!isOpen) return null

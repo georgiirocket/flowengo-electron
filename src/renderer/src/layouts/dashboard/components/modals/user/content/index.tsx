@@ -14,7 +14,6 @@ const Content: FC = () => {
 
   const handleLogOut = async (): Promise<void> => {
     window.api.emit(UI_EVENTS.signOut, {})
-    window.location.href = '/'
   }
 
   return (

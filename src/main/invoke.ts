@@ -1,6 +1,8 @@
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { INVOKE_EVENTS, UI_EVENTS } from '@shared/events'
 import { appStore } from './store'
+import { is } from '@electron-toolkit/utils'
+import { join } from 'path'
 
 export function setInvokes() {
   // IPC
@@ -29,7 +31,15 @@ export function setInvokes() {
   })
 
   ipcMain.handle(INVOKE_EVENTS.clearAppData, async () => {
-    return await appStore.clearAppData()
+    const win = BrowserWindow.getAllWindows()[0]
+
+    await appStore.clearAppData()
+
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+      void win.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+      void win.loadFile(join(__dirname, '../renderer/index.html'))
+    }
   })
 
   ipcMain.on(UI_EVENTS.clearAppDataModal, (event, data: unknown) => {
@@ -37,7 +47,15 @@ export function setInvokes() {
   })
 
   ipcMain.on(UI_EVENTS.signOut, () => {
+    const win = BrowserWindow.getAllWindows()[0]
+
     appStore.signOut()
+
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+      void win.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+      void win.loadFile(join(__dirname, '../renderer/index.html'))
+    }
   })
 
   ipcMain.on(UI_EVENTS.newProject, (event, data: unknown) => {
