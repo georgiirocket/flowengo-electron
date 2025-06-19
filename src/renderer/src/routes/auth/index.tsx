@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { formSchema, initialValues } from './schema'
 import type { z } from 'zod'
-import { useAppCtxStore } from '@common/providers/app'
 import { Card, CardHeader, CardBody, CardFooter } from '@heroui/card'
 import FieldPassword from '@common/components/fields/password'
 import { Divider } from '@heroui/divider'
@@ -16,14 +15,17 @@ import { signUp } from '@common/actions/sign-up'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@common/constants/routes'
 import ReactLogo from '@assets/icon-sq.svg?react'
+import { AppState } from '@shared/app-state'
 
 interface Props {
-  mode: 'sign-in' | 'sign-up'
+  appState: AppState
 }
 
-const AuthRoute: FC<Props> = ({ mode }) => {
+const AuthRoute: FC<Props> = ({ appState }) => {
+  const { userName } = appState
   const navigate = useNavigate()
-  const { userName, setAppData } = useAppCtxStore((state) => state)
+
+  const mode: 'sign-in' | 'sign-up' = userName.length ? 'sign-in' : 'sign-up'
 
   /**
    * Form
@@ -49,7 +51,6 @@ const AuthRoute: FC<Props> = ({ mode }) => {
     }
 
     if (data) {
-      setAppData(data)
       navigate(ROUTES.dashboard)
     }
   }

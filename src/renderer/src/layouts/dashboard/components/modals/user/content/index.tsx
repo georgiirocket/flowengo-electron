@@ -9,14 +9,11 @@ import ThemeComponent from './components/theme'
 import { UI_EVENTS } from '@shared/events'
 
 const Content: FC = () => {
-  const { userName, createDate, clear } = useAppCtxStore((state) => state)
+  const { userName, createDate } = useAppCtxStore((state) => state)
   const displayDate = formatDateFromIso(createDate, 'dateWithTime')
 
   const handleLogOut = async (): Promise<void> => {
     window.api.emit(UI_EVENTS.signOut, {})
-
-    clear()
-
     window.location.href = '/'
   }
 

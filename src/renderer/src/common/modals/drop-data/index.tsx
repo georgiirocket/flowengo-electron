@@ -2,16 +2,13 @@ import type { FC } from 'react'
 import { Modal, ModalContent, ModalBody, ModalFooter, ModalHeader } from '@heroui/modal'
 import { Button } from '@heroui/button'
 import { clearAppData } from '@common/actions/clear-app-data'
-import { useAppCtxStore } from '@common/providers/app'
 import { useDropDataModal } from '@common/hooks/use-drop-data-modal'
 
 const DropDataModal: FC = () => {
-  const clearAppState = useAppCtxStore((state) => state.clear)
   const { isOpen, setIsOpen } = useDropDataModal()
 
   const onRemoveData = async (): Promise<void> => {
     await clearAppData()
-    clearAppState()
 
     window.location.href = '/'
   }
