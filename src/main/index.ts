@@ -80,6 +80,10 @@ app.whenReady().then(async () => {
     return await appStore.saveProtectedData(data)
   })
 
+  ipcMain.handle(INVOKE_EVENTS.clearAppData, async () => {
+    return await appStore.clearAppData()
+  })
+
   // ipcMain.on('test', (event, data) => {
   //   console.log('[main] received:', data)
   //

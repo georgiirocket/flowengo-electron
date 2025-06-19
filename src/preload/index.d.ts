@@ -11,6 +11,7 @@ declare global {
       signOut: () => Promise<void>
       getProtectedData: () => Promise<{ data: unknown }>
       saveProtectedData: (data: unknown) => Promise<{ status: string }>
+      clearAppData: () => Promise<{ status: string }>
       on<T>(channel: string, callback: (data: T) => void): () => void
       emit: (channel: string, data: unknown) => void
     }

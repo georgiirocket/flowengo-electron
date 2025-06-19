@@ -1,5 +1,5 @@
 import { AppState } from '@shared/app-state'
-import { getAppState, saveUserData, getProtectedStr, saveProtectedStr } from '../db'
+import { getAppState, saveUserData, getProtectedStr, saveProtectedStr, clearAppData } from '../db'
 import { encrypt, decrypt } from './encrypt'
 
 class AppStore {
@@ -105,6 +105,15 @@ class AppStore {
     } catch (error) {
       throw new Error((error as Error).message)
     }
+  }
+
+  /**
+   * Clear app data
+   */
+  public async clearAppData(): Promise<{ status: string }> {
+    await clearAppData()
+
+    return { status: 'success' }
   }
 }
 

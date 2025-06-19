@@ -4,10 +4,12 @@ import { useMainResize } from '@common/hooks/use-main-resize'
 import { AppProvider } from '@common/providers/app'
 import { Route, Routes } from 'react-router-dom'
 import { ROUTES } from '@common/constants/routes'
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import DashboardLoading from '@common/components/loading/dashboard'
 import { getAppState } from '@common/actions/get-app-state'
 import AuthRoute from '@routes/auth'
+
+const DropDataModal = lazy(() => import('@common/modals/drop-data'))
 
 function App(): React.JSX.Element {
   const { data } = useSWR('init', () => promiseWithDelay(getAppState, 2000), {
@@ -36,6 +38,7 @@ function App(): React.JSX.Element {
             element={<AuthRoute mode={data?.userName.length ? 'sign-in' : 'sign-up'} />}
           />
         </Routes>
+        <DropDataModal />
       </main>
     </AppProvider>
   )

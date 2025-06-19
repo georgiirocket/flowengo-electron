@@ -22,6 +22,9 @@ const api = {
   saveProtectedData: (data: unknown) => {
     return ipcRenderer.invoke(INVOKE_EVENTS.saveProtectedData, data)
   },
+  clearAppData: () => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.clearAppData)
+  },
   on: (channel: string, callback: (data: unknown) => void) => {
     const listener = (_event: Electron.IpcRendererEvent, data: unknown) => callback(data)
 
