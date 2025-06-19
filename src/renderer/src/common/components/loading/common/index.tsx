@@ -17,9 +17,9 @@ const CommonLoading: FC = () => {
             <ReactLogo className="w-full h-full" />
           </motion.div>
           <motion.p
-            className="text-2xl overflow-hidden"
+            className="text-2xl overflow-hidden text-nowrap"
             initial={{ width: 0 }}
-            animate={{ width: 106 }}
+            animate={{ width: 170 }}
             transition={{ delay: 0.7, duration: 0.5 }}
           >
             {appName}
