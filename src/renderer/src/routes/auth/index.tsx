@@ -43,7 +43,7 @@ const AuthRoute: FC<Props> = ({ mode }) => {
     const { error, data } = await (mode === 'sign-in' ? signIn(values.password) : signUp(values))
 
     if (error) {
-      form.setError('root', { message: error })
+      form.setError('root', { message: 'Check your credentials' })
 
       return
     }
