@@ -10,7 +10,7 @@ export const useNewProjectModal = () => {
 
   useEffect(() => {
     const unlisten = window.api.on(UI_EVENTS.newProject, () => {
-      setIsOpen(false)
+      setIsOpen(true)
     })
 
     return () => {

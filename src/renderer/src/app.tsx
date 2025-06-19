@@ -9,10 +9,12 @@ import DashboardLoading from '@common/components/loading/dashboard'
 import { getAppState } from '@common/actions/get-app-state'
 import AuthRoute from '@routes/auth'
 import DashboardLayout from '@layouts/dashboard'
+import Dashboard from '@routes/dashboard'
+import Project from '@routes/project'
 
 const DropDataModal = lazy(() => import('@common/modals/drop-data'))
 
-function App(): React.JSX.Element {
+function App() {
   const { data } = useSWR('init', () => promiseWithDelay(getAppState, 2000), {
     suspense: true
   })
@@ -31,8 +33,8 @@ function App(): React.JSX.Element {
               </Suspense>
             }
           >
-            <Route index element={<div>Dashboard</div>} />
-            <Route path=":id" element={<div>Project</div>} />
+            <Route index element={<Dashboard />} />
+            <Route path=":id" element={<Project />} />
           </Route>
           <Route
             path={ROUTES.main}

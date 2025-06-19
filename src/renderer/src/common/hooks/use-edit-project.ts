@@ -27,8 +27,8 @@ export const useEditProjectModal = () => {
 
   useEffect(() => {
     const unlisten = window.api.on<Payload>(UI_EVENTS.editProject, (data) => {
-      setIsOpen(false)
       setPayload(data)
+      setIsOpen(true)
     })
 
     return () => {

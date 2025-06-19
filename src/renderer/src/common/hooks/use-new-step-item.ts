@@ -29,8 +29,8 @@ export const useNewStepItemModal = () => {
 
   useEffect(() => {
     const unlisten = window.api.on<NewStepPayload>(UI_EVENTS.newStepItem, (data) => {
-      setIsOpen(false)
       setPayload(data)
+      setIsOpen(true)
     })
 
     return () => {

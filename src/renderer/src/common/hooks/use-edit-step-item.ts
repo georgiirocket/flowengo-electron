@@ -31,8 +31,8 @@ export const useEditStepItemModal = () => {
 
   useEffect(() => {
     const unlisten = window.api.on<EditStepPayload>(UI_EVENTS.editStepItem, (data) => {
-      setIsOpen(false)
       setPayload(data)
+      setIsOpen(true)
     })
 
     return () => {

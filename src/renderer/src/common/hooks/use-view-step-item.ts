@@ -31,8 +31,8 @@ export const useViewStepItemModal = () => {
 
   useEffect(() => {
     const unlisten = window.api.on<ViewStepPayload>(UI_EVENTS.viewStepItem, (data) => {
-      setIsOpen(false)
       setPayload(data)
+      setIsOpen(true)
     })
 
     return () => {

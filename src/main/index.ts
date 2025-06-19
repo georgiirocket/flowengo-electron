@@ -109,7 +109,7 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.on(UI_EVENTS.viewStepItem, (event, data: unknown) => {
-    event.sender.send(UI_EVENTS.editStepItem, data)
+    event.sender.send(UI_EVENTS.viewStepItem, data)
   })
 
   //Init sql db
