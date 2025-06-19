@@ -5,7 +5,8 @@ export enum UI_EVENTS {
   editProject = 'edit-project',
   newStepItem = 'new-step-item',
   editStepItem = 'edit-step-item',
-  viewStepItem = 'view-step-item'
+  viewStepItem = 'view-step-item',
+  userModal = 'user-modal'
 }
 
 export enum INVOKE_EVENTS {

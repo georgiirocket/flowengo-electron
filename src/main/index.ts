@@ -112,6 +112,10 @@ app.whenReady().then(async () => {
     event.sender.send(UI_EVENTS.viewStepItem, data)
   })
 
+  ipcMain.on(UI_EVENTS.userModal, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.userModal, data)
+  })
+
   //Init sql db
   await initDatabase()
 
