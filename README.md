@@ -94,4 +94,4 @@ $ npm run build:mac
 $ npm run build:linux
 ```
 
-> Node: v22.13.0 Npm: 10.9.2 Rust: 1.86.0
+> Node: v22.13.0 Npm: 10.9.2
