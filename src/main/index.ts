@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { initDatabase } from './db'
 import { createMenu } from './menu'
 import { setInvokes } from './invoke'
+import { checkUpdates } from './updater'
 
 function createWindow(): void {
   // Create the browser window.
@@ -65,6 +66,8 @@ app.whenReady().then(async () => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  checkUpdates()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

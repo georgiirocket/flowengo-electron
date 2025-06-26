@@ -10,6 +10,7 @@ import AuthRoute from '@routes/auth'
 import DashboardLayout from '@layouts/dashboard'
 import Dashboard from '@routes/dashboard'
 import Project from '@routes/project'
+import { useUpdater } from '@common/hooks/use-updater'
 
 const DropDataModal = lazy(() => import('@common/modals/drop-data'))
 
@@ -19,6 +20,8 @@ function App() {
   })
 
   const { mainRef } = useMainResize()
+
+  useUpdater()
 
   return (
     <main ref={mainRef} className="w-full h-[100vh]">
