@@ -8,7 +8,8 @@ export const useUpdater = (): void => {
       addToast({
         title: 'Flowengo',
         description: 'Update available. It will download in the background.',
-        hideIcon: true
+        hideIcon: true,
+        timeout: 5000
       })
     })
 
@@ -16,7 +17,8 @@ export const useUpdater = (): void => {
       addToast({
         title: 'Flowengo',
         description: 'Update ready! Will install on next restart.',
-        hideIcon: true
+        hideIcon: true,
+        timeout: 5000
       })
     })
 
