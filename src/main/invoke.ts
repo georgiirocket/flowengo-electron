@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron'
+import { ipcMain, nativeTheme } from 'electron'
 import { INVOKE_EVENTS, UI_EVENTS } from '@shared/events'
 import { appStore } from './store'
 import { appWindow } from './app-window'
@@ -66,6 +66,32 @@ export function setInvokes() {
   })
 
   ipcMain.on(UI_EVENTS.userModal, (event, data: unknown) => {
+    event.sender.send(UI_EVENTS.userModal, data)
+  })
+
+  ipcMain.on(UI_EVENTS.theme, (event, data?: { theme?: string }) => {
+    if (typeof data?.theme !== 'string') {
+      return
+    }
+
+    switch (data.theme) {
+      case 'dark': {
+        nativeTheme.themeSource = 'dark'
+
+        break
+      }
+
+      case 'light': {
+        nativeTheme.themeSource = 'light'
+
+        break
+      }
+
+      default: {
+        nativeTheme.themeSource = 'system'
+      }
+    }
+
     event.sender.send(UI_EVENTS.userModal, data)
   })
 }

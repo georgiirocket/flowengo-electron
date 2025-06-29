@@ -9,7 +9,8 @@ export enum UI_EVENTS {
   userModal = 'user-modal',
   updateAvailable = 'update-available',
   updateDownloaded = 'update-downloaded',
-  updateError = 'update-error'
+  updateError = 'update-error',
+  theme = 'theme'
 }
 
 export enum INVOKE_EVENTS {
