@@ -31,7 +31,6 @@ dmg:
 linux:
   target:
     - AppImage
-    - snap
     - deb
   maintainer: electronjs.org
   category: Utility
@@ -42,4 +41,4 @@ publish:
   provider: github
   owner: georgiirocket
   repo: flowengo-electron
-  releaseType: release
+  releaseType: draft

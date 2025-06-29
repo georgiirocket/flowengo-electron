@@ -75,7 +75,7 @@ Since we can't verify the authenticity of your face. The only options are to res
 $ npm install
 ```
 
-### Development
+### Dev
 
 ```bash
 $ npm run dev
@@ -95,3 +95,14 @@ $ npm run build:linux
 ```
 
 > Node: v22.13.0 Npm: 10.9.2
+
+
+### Deployment
+
+- Commit changes
+- Push
+- Create tag (git tag v.)
+- Push tag (git push --tags)
+
+
+
