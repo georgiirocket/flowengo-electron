@@ -25,7 +25,7 @@ class AppWindow {
       minHeight: 400,
       show: false,
       title: 'Flowengo Board',
-      autoHideMenuBar: true,
+      autoHideMenuBar: false,
       ...(process.platform === 'linux' ? { icon } : {}),
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
