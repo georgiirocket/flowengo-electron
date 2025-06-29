@@ -15,24 +15,26 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Get version from package.json
-        id: version
-        run: echo "TAG_NAME=v$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - name: Create Git Tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const tagName = `v${pkg.version}`;
+            const sha = context.payload.pull_request.merge_commit_sha;
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Create and Push Tag
-        run: |
-          git tag ${{ steps.version.outputs.TAG_NAME }}
-          git push origin ${{ steps.version.outputs.TAG_NAME }}
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${tagName}`,
+              sha: sha
+            });
