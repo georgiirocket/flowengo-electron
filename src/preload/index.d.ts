@@ -13,6 +13,7 @@ declare global {
       getProtectedData: () => Promise<{ data: unknown }>
       saveProtectedData: (data: unknown) => Promise<{ status: string }>
       clearAppData: () => Promise<void>
+      getAppVersion: () => Promise<string>
       on<T>(channel: UI_EVENTS, callback: (data: T) => void): () => void
       emit: (channel: UI_EVENTS, data: unknown) => void
     }

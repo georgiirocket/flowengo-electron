@@ -1,4 +1,4 @@
-import { ipcMain, nativeTheme } from 'electron'
+import { app, ipcMain, nativeTheme } from 'electron'
 import { INVOKE_EVENTS, UI_EVENTS } from '@shared/events'
 import { appStore } from './store'
 import { appWindow } from './app-window'
@@ -23,6 +23,10 @@ export function setInvokes() {
 
   ipcMain.handle(INVOKE_EVENTS.getProtectedData, async () => {
     return await appStore.getProtectedData()
+  })
+
+  ipcMain.handle(INVOKE_EVENTS.appVersion, async () => {
+    return app.getVersion()
   })
 
   ipcMain.handle(INVOKE_EVENTS.saveProtectedData, async (_event, data: unknown) => {

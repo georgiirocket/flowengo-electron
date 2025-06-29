@@ -25,6 +25,9 @@ const api = {
   clearAppData: () => {
     return ipcRenderer.invoke(INVOKE_EVENTS.clearAppData)
   },
+  getAppVersion: () => {
+    return ipcRenderer.invoke(INVOKE_EVENTS.appVersion)
+  },
   on: (channel: string, callback: (data: unknown) => void) => {
     const listener = (_event: Electron.IpcRendererEvent, data: unknown) => callback(data)
 

@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@common/constants/routes'
 import ReactLogo from '@assets/icon-sq.svg?react'
 import { AppState } from '@shared/app-state'
+import { useVersion } from '@common/hooks/use-version'
+import { Chip } from '@heroui/chip'
 
 interface Props {
   appState: AppState
@@ -24,6 +26,7 @@ interface Props {
 const AuthRoute: FC<Props> = ({ appState }) => {
   const { userName } = appState
   const navigate = useNavigate()
+  const { version } = useVersion()
 
   const mode: 'sign-in' | 'sign-up' = userName.length ? 'sign-in' : 'sign-up'
 
@@ -56,7 +59,10 @@ const AuthRoute: FC<Props> = ({ appState }) => {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="size-full grid place-content-center">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="size-full grid place-content-center releative"
+    >
       <Card className="min-w-[300px] md:min-w-[400px]">
         <CardHeader className="flex gap-1 items-center justify-between">
           <p className="flex gap-1 items-center">
@@ -106,6 +112,16 @@ const AuthRoute: FC<Props> = ({ appState }) => {
           </Button>
         </CardFooter>
       </Card>
+      <Chip
+        color="primary"
+        size="sm"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2"
+      >
+        <div className="text-tiny flex gap-2 items-center">
+          <p>{appName}</p>
+          <p>v.{version}</p>
+        </div>
+      </Chip>
     </form>
   )
 }

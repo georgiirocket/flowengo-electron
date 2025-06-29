@@ -20,5 +20,6 @@ export enum INVOKE_EVENTS {
   signOut = 'sign-out',
   getProtectedData = 'get-protected-data',
   saveProtectedData = 'save-protected-data',
-  clearAppData = 'clear-app-data'
+  clearAppData = 'clear-app-data',
+  appVersion = 'app-version'
 }
