@@ -1,5 +1,6 @@
-import { BrowserWindow, Menu, MenuItem } from 'electron'
+import { Menu, MenuItem } from 'electron'
 import { UI_EVENTS } from '@shared/events'
+import { appWindow } from './app-window'
 
 export function createMenu() {
   const currentMenu = Menu.getApplicationMenu()
@@ -19,9 +20,9 @@ export function createMenu() {
       new MenuItem({
         label: 'Clear user data',
         click: () => {
-          const win = BrowserWindow.getAllWindows()[0]
-
-          win.webContents.send(UI_EVENTS.clearAppDataModal, { triggeredFrom: 'menu' })
+          appWindow
+            .getMainWindow()
+            ?.webContents.send(UI_EVENTS.clearAppDataModal, { triggeredFrom: 'menu' })
         }
       })
     )

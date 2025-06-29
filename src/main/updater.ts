@@ -1,6 +1,6 @@
 import { autoUpdater } from 'electron-updater'
-import { BrowserWindow } from 'electron'
 import { UI_EVENTS } from '@shared/events'
+import { appWindow } from './app-window'
 
 /**
  * Check for updates
@@ -9,21 +9,15 @@ export function checkUpdates() {
   void autoUpdater.checkForUpdatesAndNotify()
 
   autoUpdater.on('update-available', () => {
-    const win = BrowserWindow.getAllWindows()[0]
-
-    win.webContents.send(UI_EVENTS.updateAvailable)
+    appWindow.getMainWindow()?.webContents.send(UI_EVENTS.updateAvailable)
   })
 
   autoUpdater.on('update-downloaded', () => {
-    const win = BrowserWindow.getAllWindows()[0]
-
-    win.webContents.send(UI_EVENTS.updateDownloaded)
+    appWindow.getMainWindow()?.webContents.send(UI_EVENTS.updateDownloaded)
   })
 
   autoUpdater.on('error', (err) => {
-    console.error('Update error:', err)
-    const win = BrowserWindow.getAllWindows()[0]
-
-    win.webContents.send(UI_EVENTS.updateError)
+    console.error(err.message)
+    appWindow.getMainWindow()?.webContents.send(UI_EVENTS.updateError)
   })
 }
